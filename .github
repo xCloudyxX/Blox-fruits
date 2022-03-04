@@ -1,0 +1,73 @@
+_G.d = true
+local function HttpGet(url)
+    return game:GetService("HttpService"):JSONDecode(htgetf(url))
+end
+game:GetService('RunService').Stepped:connect(function()
+if _G.d then
+game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+end
+end)
+local info = TweenInfo.new(1,Enum.EasingStyle.Quad);
+function tp(x,y,z)
+   local tween,err = pcall(function()
+       local tween = game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character["HumanoidRootPart"],TweenInfo.new(1,Enum.EasingStyle.Quad),{CFrame=CFrame.new(x,y,z)});
+       tween:Play();
+   end)
+   if not tween then return err end
+end
+function FindNearest(chests)
+    local lowest = math.huge -- infinity
+    local chest = nil
+    for i,v in pairs(chests) do
+        if v then
+            local distance = (v.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude
+            if distance < lowest then
+                lowest = distance
+                chest = v
+            end
+        end
+    end
+    return chest
+end
+if tonumber(game.PlaceId) == 2753915549 then
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes")
+local TeleportService = game:GetService("TeleportService")
+while _G.d and wait() do
+    local chests = {}
+    for i,d in pairs(game:GetService("Workspace"):GetChildren()) do
+        if string.find(d.Name, "Chest") ~= nil then
+            table.insert(chests, d)
+        end
+    end
+    if #chests == 0 then
+        pcall(function()
+            local d = HttpGet("https://www.roblox.com/games/getgameinstancesjson?placeId=" .. game.PlaceId .. "&startindex=0")
+            local f = HttpGet("https://www.roblox.com/games/getgameinstancesjson?placeId=" .. game.PlaceId .. "&startindex=".. math.random(0,tonumber(d.TotalCollectionSize)))
+            local c = f.Collection[math.random(1,#f.Collection)]
+            game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, c.Guid)
+        end)
+        wait(0.5)
+    end
+if game.Players.LocalPlayer.Team == nil then 
+game:GetService("ReplicatedStorage").Remotes["CommF_"]:InvokeServer("SetTeam", "Marines")
+end
+    if game.Players.LocalPlayer.Character then
+        local close = FindNearest(chests)
+if close == nil then
+        if game.VIPServerOwnerId == 0 then
+        pcall(function()
+            local d = HttpGet("https://www.roblox.com/games/getgameinstancesjson?placeId=" .. game.PlaceId .. "&startindex=0")
+            local f = HttpGet("https://www.roblox.com/games/getgameinstancesjson?placeId=" .. game.PlaceId .. "&startindex=".. math.random(0,tonumber(d.TotalCollectionSize)))
+            local c = f.Collection[math.random(1,#f.Collection)]
+            game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, c.Guid)
+        end)
+       end
+        wait(0.5)
+    else
+    tp(close.CFrame.X,close.CFrame.Y,close.CFrame.Z)
+repeat wait() until d == nil or d.Parent == nil or _G.d == false
+end
+end
+    
+end
+end
